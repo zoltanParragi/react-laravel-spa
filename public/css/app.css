@@ -10768,3 +10768,18 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.success {
+  background: rgb(128, 241, 128);
+}
+
+/* .error {
+    background: rgb(241, 145, 145);
+} */
+.messages-wrapper {
+  height: 3rem;
+}
+
+.message {
+  height: 2rem;
+  color: red;
+}

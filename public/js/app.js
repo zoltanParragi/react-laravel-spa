@@ -9904,17 +9904,34 @@ function UserList() {
     _useState2 = _slicedToArray(_useState, 2),
     users = _useState2[0],
     setUsers = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    response = _useState4[0],
+    setResponse = _useState4[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     fetch('/api/users').then(function (res) {
       return res.json();
     }).then(function (list) {
       setUsers(list);
     });
-  }, []);
+  }, [response]);
+  var deleteUser = function deleteUser(id) {
+    fetch('/api/userdelete/' + id).then(function (res) {
+      return res.json();
+    }).then(function (res) {
+      return setResponse(res);
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "container",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "row justify-content-center messages-wrapper mt-2 mb-2 px-4",
+        children: response && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: 'col-md-4 d-flex justify-content-center align-items-center ' + response.status,
+          children: response.status === 'success' && response.message
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "row justify-content-center",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "col-md-8",
@@ -9929,9 +9946,13 @@ function UserList() {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
                   children: [e.name, ' ', " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
                     to: "/dynamic/profile/".concat(e.id),
-                    children: "Change user data"
-                  }), ' ', " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-                    to: "/dynamic/profile/".concat(e.id),
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                      children: "Change user data"
+                    })
+                  }), ' ', " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+                    onClick: function onClick() {
+                      return deleteUser(e.id);
+                    },
                     children: "Delete user"
                   })]
                 }, i);
@@ -9939,7 +9960,7 @@ function UserList() {
             })]
           })
         })
-      })
+      })]
     })
   });
 }
@@ -9982,6 +10003,10 @@ function UserProfile() {
     _useState2 = _slicedToArray(_useState, 2),
     user = _useState2[0],
     setUser = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    response = _useState4[0],
+    setResponse = _useState4[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     fetch('/api/user/' + params.id).then(function (res) {
       return res.json();
@@ -9991,21 +10016,31 @@ function UserProfile() {
   }, []);
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
-    fetch('/api/useredit/' + params.id, {
+    fetch('/api/useredit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': token
       },
       body: JSON.stringify(user)
+    }).then(function (res) {
+      return res.json();
+    }).then(function (res) {
+      return setResponse(res);
     });
   };
   var handleChange = function handleChange(event) {
     setUser(_objectSpread(_objectSpread({}, user), {}, _defineProperty({}, event.target.name, event.target.value)));
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "row justify-content-center messages-wrapper mt-2 mb-2 px-4",
+      children: response && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: 'col-md-6 d-flex justify-content-center align-items-center ' + response.status,
+        children: response.status === 'success' && response.message
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "row justify-content-center",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "col-md-6",
@@ -10014,7 +10049,7 @@ function UserProfile() {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "card-header",
             children: "User"
-          }), JSON.stringify(user), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "card-body",
             children: user.id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
               onSubmit: handleSubmit,
@@ -10027,7 +10062,10 @@ function UserProfile() {
                 name: "name",
                 value: user.name,
                 onChange: handleChange
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: "d-flex align-items-center message",
+                children: response && response.status === 'error' && response.message.name && response.message.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
                 children: "Email: "
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                 type: "email",
@@ -10036,7 +10074,10 @@ function UserProfile() {
                 name: "email",
                 value: user.email,
                 onChange: handleChange
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: "d-flex align-items-center message",
+                children: response && response.status === 'error' && response.message.email && response.message.email
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 type: "submit",
                 className: "btn btn-primary",
                 children: "Save"
@@ -10045,7 +10086,7 @@ function UserProfile() {
           })]
         })
       })
-    })
+    })]
   });
 }
 

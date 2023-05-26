@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User; 
+use App\Http\Controllers\UserEditController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,11 @@ Route::get('/user/{id}', function($id){
     return response(User::find($id), 200, [
         'Content-Type' => 'application/jsnon'
     ]);
+});
+
+Route::post('/useredit', [UserEditController::class, 'useredit']);
+
+Route::get('/userdelete/{id}', function($id) {
+    User::where('id', $id)->delete();
+    return response(['status' => 'success', 'message' => __('Sikeres törlés.')]);
 });
